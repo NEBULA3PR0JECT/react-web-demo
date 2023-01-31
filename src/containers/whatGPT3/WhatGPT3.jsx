@@ -23,7 +23,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
   if (recPipelineId) {
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://localhost:5000/get_movie_id1', {
+        fetch('http://anarhist.pythonanywhere.com/get_movie_id1', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -38,7 +38,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://localhost:5000/get_generated_caption_url', {
+        fetch('http://anarhist.pythonanywhere.com/get_generated_caption_url', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -53,7 +53,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://localhost:5000/get_generated_text', {
+        fetch('http://anarhist.pythonanywhere.com/get_generated_text', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -68,7 +68,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://localhost:5000/get_generated_triplets', {
+        fetch('http://anarhist.pythonanywhere.com/get_generated_triplets', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },

@@ -23,7 +23,7 @@ const Header = () => {
 
   useEffect(() => {
     if (urlLink !== ai) {
-      fetch('http://localhost:5000/insert_pipeline_id', {
+      fetch('http://anarhist.pythonanywhere.com/insert_pipeline_id', {
         method: 'POST',
         body: JSON.stringify(urlLink),
         headers: { 'content-type': 'application/json' },
