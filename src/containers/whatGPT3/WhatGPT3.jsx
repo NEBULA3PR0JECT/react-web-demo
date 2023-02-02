@@ -68,7 +68,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('/get_generated_triplets', {
+        fetch('http://74.82.29.209:5000/get_generated_triplets', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
