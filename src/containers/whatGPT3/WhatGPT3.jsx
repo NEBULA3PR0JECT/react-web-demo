@@ -23,7 +23,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
   if (recPipelineId) {
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://anarhist.pythonanywhere.com/get_movie_id1', {
+        fetch('/get_movie_id1', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -38,7 +38,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://anarhist.pythonanywhere.com/get_generated_caption_url', {
+        fetch('/get_generated_caption_url', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -53,7 +53,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://anarhist.pythonanywhere.com/get_generated_text', {
+        fetch('/get_generated_text', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -68,7 +68,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('http://anarhist.pythonanywhere.com/get_generated_triplets', {
+        fetch('/get_generated_triplets', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
@@ -81,7 +81,10 @@ const WhatGPT3 = ({ recPipelineId }) => {
       };
     }, []);
   }
-  const updatedList = generatedTriplets.map((listItems) => listItems.length === 3 && <p>{`${listItems[0]} -> ${listItems[1]} -> ${listItems[2]}`}</p>);
+  let updatedList = generatedTriplets;
+  if (generatedTriplets.length > 1) {
+    updatedList = generatedTriplets.map((listItems) => listItems.length === 3 && <p>{`${listItems[0]} -> ${listItems[1]} -> ${listItems[2]}`}</p>);
+  }
 
   return (
     <div className="gpt3__whatgpt3 section__margin" id="wgpt3">
