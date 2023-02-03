@@ -2,7 +2,7 @@
   "homepage": ".",
   "name": "gpt3",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -19,7 +19,8 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
