@@ -95,7 +95,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
         </div>
       </div>
       <div className="gpt3__whatgpt3-heading">
-        <h1 className="gradient__text">Generated caption:</h1>
+        <h1 className="gradient__text">Generated caption: </h1>
         <p>{generatedCaption}</p>
       </div>
       <div className="gpt3__whatgpt3-heading">
