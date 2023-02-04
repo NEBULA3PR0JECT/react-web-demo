@@ -45,7 +45,7 @@ const Header = () => {
 
         <div className="gpt3__header-content__input">
           <input type="text" onChange={handleChange} id="urlLink" name="urlLink" placeholder="Your URL Link" />
-          <button onTouchStart={() => setdata((previous) => !previous)} onClick={() => setdata((previous) => !previous)} type="button">Start</button>
+          <button onClick={() => setdata((previous) => !previous)} type="button" style="cursor:pointer">Start</button>
         </div>
 
       </div>
