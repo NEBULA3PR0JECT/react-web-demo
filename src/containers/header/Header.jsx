@@ -19,7 +19,6 @@ const Header = () => {
 
   const handleChange = (event) => {
     setUrlLink(event.target.value);
-    setdata((previous) => !previous);
   };
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const Header = () => {
 
         <div className="gpt3__header-content__input">
           <input type="text" onChange={handleChange} id="urlLink" name="urlLink" placeholder="Your URL Link" />
-          <button onMouseEnter={() => setdata((previous) => !previous)} type="button" style={{ cursor: 'pointer' }}>Start</button>
+          <button onClick={() => setdata((previous) => !previous)} type="button" style={{ cursor: 'pointer' }}>Start</button>
         </div>
 
       </div>

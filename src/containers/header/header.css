@@ -192,5 +192,6 @@
     .gpt3__header-content__input button {
         font-size: 12px;
         line-height: 16px;
+        cursor: pointer;
     }
 }
