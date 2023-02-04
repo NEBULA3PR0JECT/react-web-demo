@@ -19,6 +19,7 @@ const Header = () => {
 
   const handleChange = (event) => {
     setUrlLink(event.target.value);
+    setdata(true);
   };
 
   useEffect(() => {
