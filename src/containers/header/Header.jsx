@@ -23,7 +23,7 @@ const Header = () => {
 
   useEffect(() => {
     if (urlLink !== ai) {
-      fetch('/insert_pipeline_id', {
+      fetch('http://74.82.29.209:5000/insert_pipeline_id', {
         method: 'POST',
         body: JSON.stringify({ urlLink }),
         headers: { 'content-type': 'application/json' },
