@@ -25,7 +25,7 @@ const Header = () => {
     if (urlLink !== ai) {
       fetch('/insert_pipeline_id', {
         method: 'POST',
-        body: { urlLink },
+        body: JSON.stringify({ urlLink }),
         headers: { 'content-type': 'application/json' },
       })
         .then((res) => {
