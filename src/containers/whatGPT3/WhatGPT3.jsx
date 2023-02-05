@@ -9,7 +9,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
   const [generatedCaption, setGeneratedCaption] = useState('Loading caption...');
   const [generatedTriplets, setGeneratedTriplets] = useState(['Loading triplets...']);
   const [pipelineId, setPipelineId] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
+  // const [isFetching, setIsFetching] = useState(true);
   // const [movieId, setMovieId] = useState(false);
 
   if (pipelineId === false && recPipelineId) {
@@ -22,22 +22,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
   //   }
   // }, [pipelineId]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetch('http://74.82.29.209:5000/get_fetching_status', {
-        method: 'POST',
-        body: JSON.stringify(recPipelineId),
-        headers: { 'content-type': 'application/json' },
-      }).then((res) => res.json().then((data1) => {
-        console.log(data1); setIsFetching(data1.fetching_status)
-      }));
-    }, 300);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  if (recPipelineId && isFetching) {
+  if (recPipelineId) {
     useEffect(() => {
       const interval = setInterval(() => {
         fetch('http://74.82.29.209:5000/get_generated_caption_url', {
@@ -83,6 +68,22 @@ const WhatGPT3 = ({ recPipelineId }) => {
       };
     }, []);
   }
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetch('http://74.82.29.209:5000/get_fetching_status', {
+  //       method: 'POST',
+  //       body: JSON.stringify(recPipelineId),
+  //       headers: { 'content-type': 'application/json' },
+  //     }).then((res) => res.json().then((data1) => {
+  //       console.log(data1); setIsFetching(data1.fetching_status);
+  //     }));
+  //   }, 300);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+
   let updatedList = generatedTriplets;
   if (generatedTriplets.length > 1) {
     updatedList = generatedTriplets.map((listItems) => listItems.length === 3 && <p>{`${listItems[0]} -> ${listItems[1]} -> ${listItems[2]}`}</p>);
