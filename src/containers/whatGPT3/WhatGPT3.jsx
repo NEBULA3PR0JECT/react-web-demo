@@ -31,7 +31,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1.image_url); setUrlLink(data1.image_url);
-        }));
+        })).catch(console.error);
       }, 300);
       return () => {
         clearInterval(interval);
@@ -46,7 +46,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1.candidate); setGeneratedCaption(data1.candidate);
-        }));
+        })).catch(console.error);
       }, 300);
       return () => {
         clearInterval(interval);
@@ -61,7 +61,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1.triplets); setGeneratedTriplets(data1.triplets);
-        }));
+        })).catch(console.error);
       }, 300);
       return () => {
         clearInterval(interval);
