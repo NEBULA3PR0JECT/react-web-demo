@@ -9,6 +9,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
   const [generatedCaption, setGeneratedCaption] = useState('Loading caption...');
   const [generatedTriplets, setGeneratedTriplets] = useState(['Loading triplets...']);
   const [pipelineId, setPipelineId] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   // const [movieId, setMovieId] = useState(false);
 
   if (pipelineId === false && recPipelineId) {
@@ -20,22 +21,23 @@ const WhatGPT3 = ({ recPipelineId }) => {
   //     setPipelineId(pipelineId1);
   //   }
   // }, [pipelineId]);
-  if (recPipelineId) {
-    useEffect(() => {
-      const interval = setInterval(() => {
-        fetch('http://74.82.29.209:5000/get_movie_id1', {
-          method: 'POST',
-          body: JSON.stringify(recPipelineId),
-          headers: { 'content-type': 'application/json' },
-        }).then((res) => res.json().then((data1) => {
-          console.log(data1); console.log(data1.movie_id);
-        }));
-      }, 3000);
-      return () => {
-        clearInterval(interval);
-      };
-    }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch('http://74.82.29.209:5000/get_fetching_status', {
+        method: 'POST',
+        body: JSON.stringify(recPipelineId),
+        headers: { 'content-type': 'application/json' },
+      }).then((res) => res.json().then((data1) => {
+        console.log(data1); setIsFetching(data1.fetching_status)
+      }));
+    }, 300);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (recPipelineId && isFetching) {
     useEffect(() => {
       const interval = setInterval(() => {
         fetch('http://74.82.29.209:5000/get_generated_caption_url', {
@@ -45,7 +47,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
         }).then((res) => res.json().then((data1) => {
           console.log(data1.image_url); setUrlLink(data1.image_url);
         }));
-      }, 3000);
+      }, 300);
       return () => {
         clearInterval(interval);
       };
@@ -60,7 +62,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
         }).then((res) => res.json().then((data1) => {
           console.log(data1.candidate); setGeneratedCaption(data1.candidate);
         }));
-      }, 3000);
+      }, 300);
       return () => {
         clearInterval(interval);
       };
@@ -75,7 +77,7 @@ const WhatGPT3 = ({ recPipelineId }) => {
         }).then((res) => res.json().then((data1) => {
           console.log(data1.triplets); setGeneratedTriplets(data1.triplets);
         }));
-      }, 3000);
+      }, 300);
       return () => {
         clearInterval(interval);
       };
