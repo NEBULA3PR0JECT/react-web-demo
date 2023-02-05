@@ -23,9 +23,9 @@ const Header = () => {
 
   useEffect(() => {
     if (urlLink !== ai) {
-      fetch('https://74.82.29.209:5000/insert_pipeline_id', {
+      fetch('/insert_pipeline_id', {
         method: 'POST',
-        body: JSON.stringify(urlLink),
+        body: { urlLink },
         headers: { 'content-type': 'application/json' },
       })
         .then((res) => {
@@ -45,7 +45,7 @@ const Header = () => {
 
         <div className="gpt3__header-content__input">
           <input type="text" onChange={handleChange} id="urlLink" name="urlLink" placeholder="Your URL Link" />
-          <button onClick={() => setdata((previous) => !previous)} type="button" style={{ cursor: 'pointer' }}>Start</button>
+          <button onClick={() => setdata((previous) => !previous)} type="button">Start</button>
         </div>
 
       </div>

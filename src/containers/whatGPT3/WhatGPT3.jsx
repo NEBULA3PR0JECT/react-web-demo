@@ -23,14 +23,14 @@ const WhatGPT3 = ({ recPipelineId }) => {
   if (recPipelineId) {
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('https://74.82.29.209:5000/get_movie_id1', {
+        fetch('http://74.82.29.209:5000/get_movie_id1', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1); console.log(data1.movie_id);
         }));
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
@@ -38,14 +38,14 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('https://74.82.29.209:5000/get_generated_caption_url', {
+        fetch('http://74.82.29.209:5000/get_generated_caption_url', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1.image_url); setUrlLink(data1.image_url);
         }));
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
@@ -53,14 +53,14 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('https://74.82.29.209:5000/get_generated_text', {
+        fetch('http://74.82.29.209:5000/get_generated_text', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1.candidate); setGeneratedCaption(data1.candidate);
         }));
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
@@ -68,14 +68,14 @@ const WhatGPT3 = ({ recPipelineId }) => {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        fetch('https://74.82.29.209:5000/get_generated_triplets', {
+        fetch('http://74.82.29.209:5000/get_generated_triplets', {
           method: 'POST',
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(data1.triplets); setGeneratedTriplets(data1.triplets);
         }));
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
