@@ -39,6 +39,19 @@
     flex-direction: row;
 }
 
+.gpt3__progressBar-image {
+    background: linear-gradient(to left, #F2709C, #FF9472);
+	box-shadow: 0 3px 3px -5px #F2709C, 0 2px 5px #F2709C;
+	border-radius: 20px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50%;
+    width: var(--width);
+    padding: var(--padding);
+}
+
 .gpt3__header-content__buttons {
     width: 100%;
     margin: 2rem 0 1rem;

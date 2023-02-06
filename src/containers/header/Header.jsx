@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // import people from '../../assets/people.png';
 import ai from '../../assets/ai.png';
 import WhatGPT3 from '../whatGPT3/WhatGPT3';
+import { ProgressBar } from '../../components';
 import './header.css';
 
 const Header = () => {
@@ -14,7 +15,7 @@ const Header = () => {
 
   const [urlLink, setUrlLink] = useState(ai);
   const [pipelineId, setPipelineId] = useState(false);
-
+  const [taskStatus, setTaskStatus] = useState(false);
   const [data, setdata] = useState(false);
 
   const handleChange = (event) => {
@@ -36,6 +37,21 @@ const Header = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch('http://74.82.29.209:5000/get_task_status', {
+        method: 'POST',
+        body: JSON.stringify(urlLink),
+        headers: { 'content-type': 'application/json' },
+      }).then((res) => res.json().then((data1) => {
+        console.log(data1.current_task); setTaskStatus(data1.current_task);
+      })).catch(console.error);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
 
     <div className="gpt3__header section__padding" id="home">
@@ -47,7 +63,31 @@ const Header = () => {
           <input type="text" onChange={handleChange} id="urlLink" name="urlLink" placeholder="Your URL Link" />
           <button onClick={() => setdata((previous) => !previous)} type="button">Start</button>
         </div>
-
+        {(taskStatus === 'videoprocessing') && (
+          <div className="gpt3__progressBar-image" style={{ width: '20%', padding: '0 4rem' }}>
+            <ProgressBar progress="20" />
+          </div>
+        )}
+        {(taskStatus === 'reid') && (
+          <div className="gpt3__progressBar-image" style={{ width: '40%', padding: '0 8rem' }}>
+            <ProgressBar progress="40" />
+          </div>
+        )}
+        {(taskStatus === 'visual_clues') && (
+          <div className="gpt3__progressBar-image" style={{ width: '60%', padding: '0 8rem' }}>
+            <ProgressBar progress="60" />
+          </div>
+        )}
+        {(taskStatus === 'fusion') && (
+          <div className="gpt3__progressBar-image" style={{ width: '80%', padding: '0 8rem' }}>
+            <ProgressBar progress="80" />
+          </div>
+        )}
+        {(taskStatus === 'llm') && (
+          <div className="gpt3__progressBar-image" style={{ width: '100%', padding: '0 8rem' }}>
+            <ProgressBar progress="100" />
+          </div>
+        )}
       </div>
 
       <div className="gpt3__header-image">
