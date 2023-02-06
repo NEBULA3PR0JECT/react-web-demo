@@ -58,9 +58,11 @@ const Header = () => {
       <div className="gpt3__header-content">
         <h1 className="gradient__text">Let&apos;s Process Your Image With Nebula</h1>
         <p>Insert the URL Link below</p>
-
         <div className="gpt3__header-content__input">
-          <input type="text" onChange={handleChange} id="urlLink" name="urlLink" placeholder="Your URL Link" />
+          <div className="gpt3__header-content__clear">
+            <button onClick={() => setUrlLink('')} type="button">X</button>
+          </div>
+          <input type="text" onChange={handleChange} id="urlLink" name="urlLink" value={urlLink === ai ? '' : urlLink} placeholder="Your URL Link" />
           <button onClick={() => setdata((previous) => !previous)} type="button">Start</button>
         </div>
         {(taskStatus === 'videoprocessing') && (
