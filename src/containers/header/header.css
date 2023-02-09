@@ -33,10 +33,32 @@
 
 .gpt3__header-content__input {
     width: 100%;
-    margin: 2rem 0 1rem;
+    margin: 2rem 5 1rem;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+.gpt3__header-content__clear {
+    width: 7%;
+    margin: 0rem 0 0rem;
+    margin-left: auto;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.gpt3__progressBar-image {
+    background: linear-gradient(to left, #F2709C, #FF9472);
+	box-shadow: 0 3px 3px -5px #F2709C, 0 2px 5px #F2709C;
+	border-radius: 20px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50%;
+    width: var(--width);
+    padding: var(--padding);
 }
 
 .gpt3__header-content__buttons {
@@ -79,9 +101,9 @@
     color: #fff;
     cursor: pointer;
     outline: none;
+    margin: 2rem 0 1rem;
 
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-radius: 5px;
 }
 
 .gpt3__header-content__buttons button {
@@ -99,8 +121,7 @@
     cursor: pointer;
     outline: none;
 
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-radius: 5px;
 }
 
 .gpt3__header-content__people {
