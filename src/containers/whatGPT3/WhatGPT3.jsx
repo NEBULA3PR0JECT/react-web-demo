@@ -169,10 +169,10 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
   //   };
   // }, []);
 
-  // let updatedList = generatedTriplets;
-  // if (generatedTriplets.length > 1) {
-  //   updatedList = generatedTriplets.map((listItems) => listItems.length === 3 && <p>{`${listItems[0]} -> ${listItems[1]} -> ${listItems[2]}`}</p>);
-  // }
+  let updatedList = generatedTriplets;
+  if (generatedTriplets.length > 1) {
+    updatedList = generatedTriplets.map((listItems) => listItems.length === 3 && <p>{`${listItems[0]} -> ${listItems[1]} -> ${listItems[2]}`}</p>);
+  }
 
   // const updatedList = createNode(0);
   // if (updatedList) {
@@ -197,7 +197,8 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
         <h1 className="gradient__text">Generated triplets:</h1>
       </div>
       <div className="gpt3__whatgpt3-heading">
-        <Graph graph={graph} options={options} events={events} style={{ height: '640px' }} />
+        {updatedList}
+        {/* <Graph graph={graph} options={options} events={events} style={{ height: '640px' }} /> */}
       </div>
     </div>
   );
