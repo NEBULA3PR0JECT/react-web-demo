@@ -17,6 +17,7 @@ const Header = () => {
   const [pipelineId, setPipelineId] = useState(false);
   const [taskStatus, setTaskStatus] = useState(false);
   const [data, setdata] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   const handleChange = (event) => {
     setUrlLink(event.target.value);
@@ -45,6 +46,9 @@ const Header = () => {
         headers: { 'content-type': 'application/json' },
       }).then((res) => res.json().then((data1) => {
         console.log(data1.current_task); setTaskStatus(data1.current_task);
+        if (data1.current_task === 'llm') {
+          setIsFinished(true);
+        }
       })).catch(console.error);
     }, 1000);
     return () => {
@@ -59,12 +63,10 @@ const Header = () => {
         <h1 className="gradient__text">Let&apos;s Process Your Image With Nebula</h1>
         <p>Insert the URL Link below</p>
         <div className="gpt3__header-content__input">
-          {(urlLink !== ai) && (urlLink !== '') && (
-            <div className="gpt3__header-content__clear">
-              <button onClick={() => setUrlLink('')} type="button">X</button>
-            </div>
-          )}
           <input type="text" onChange={handleChange} id="urlLink" name="urlLink" value={urlLink === ai ? '' : urlLink} placeholder="Your URL Link" />
+          <button onClick={() => setUrlLink('')} type="button">X</button>
+        </div>
+        <div className="gpt3__header-content__start">
           <button onClick={() => setdata((previous) => !previous)} type="button">Start</button>
         </div>
         {(taskStatus === 'videoprocessing') && (
@@ -92,17 +94,15 @@ const Header = () => {
             <ProgressBar progress="100" />
           </div>
         )}
-      </div>
 
-      <div className="gpt3__header-image">
-        <img src={urlLink} />
+        <div className="gpt3__header-image">
+          <img src={urlLink} />
+        </div>
+        <div className="gpt3__whatgpt3">
+          {console.log(`Sending ${pipelineId}`)}
+          {pipelineId && pipelineId !== ai && <WhatGPT3 recPipelineId={pipelineId} isFinished={isFinished} />}
+        </div>
       </div>
-
-      <div className="gpt3__header-image">
-        {console.log(`Sending ${pipelineId}`)}
-        {pipelineId && pipelineId !== ai && <WhatGPT3 recPipelineId={pipelineId} />}
-      </div>
-
     </div>
 
   );

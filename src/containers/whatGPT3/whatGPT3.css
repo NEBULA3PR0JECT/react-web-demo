@@ -1,7 +1,7 @@
 .gpt3__whatgpt3  {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    /* padding: 2rem; */
     background: var(--color-footer);
 
     /* ff 3.6+ */
@@ -38,7 +38,7 @@
 
 .gpt3__whatgpt3-heading {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
@@ -97,31 +97,34 @@
     margin-top: 0.5rem;
 }
 
-@media screen and (max-width: 2000px) {
-
-    .gpt3__whatgpt3 {
-        min-width: 700px;
-    }
-}
-
-@media screen and (max-width: 850px) {
-    .gpt3__whatgpt3-heading {
+@media screen and (max-width: 1000px) {
+    /* Customizing feature component as per needs */
+    .gpt3__whatgpt3-feature .gpt3__features-container__feature {
         flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 0rem;
+    }
+
+    /* Customizing feature component as per needs */
+    .gpt3__whatgpt3-feature .gpt3__features-container_feature-text {
+        margin-top: 0.5rem;
+    }
+
+    .gpt3__whatgpt3-heading h1 {
+        font-size: 24px;
+        line-height: 50px;
     }
 
     .gpt3__whatgpt3-heading p {
-        margin-top: 1rem;
+        font-size: 18px;
+        line-height: 24px;
     }
 
     .gpt3__whatgpt3-image img {
-        width: 100%;
-        height: 100%;
+        width: 115%;
+        height: 115%;
     }
 
     .gpt3__whatgpt3 {
-        min-width: 700px;
+        min-width: 350px;
     }
 }
 
@@ -137,8 +140,13 @@
     }
 
     .gpt3__whatgpt3-heading h1 {
-        font-size: 28px;
-        line-height: 40px;
+        font-size: 20px;
+        line-height: 50px;
+    }
+
+    .gpt3__whatgpt3-heading p {
+        font-size: 16px;
+        line-height: 24px;
     }
 
     .gpt3__whatgpt3-image img {
@@ -151,7 +159,7 @@
     }
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 490px) {
     /* Customizing feature component as per needs */
     .gpt3__whatgpt3-container .gpt3__features-container__feature {
         margin: 1rem 0;
@@ -163,5 +171,15 @@
     }
     .gpt3__whatgpt3 {
         min-width: 250px;
+    }
+
+    .gpt3__whatgpt3-heading h1 {
+        font-size: 15px;
+        line-height: 48px;
+    }
+
+    .gpt3__whatgpt3-heading p {
+        font-size: 14px;
+        line-height: 24px;
     }
 }
