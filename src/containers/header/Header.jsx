@@ -14,7 +14,7 @@ const Header = () => {
   // }
 
   const [urlLink, setUrlLink] = useState(ai);
-  const [pipelineId, setPipelineId] = useState(false);
+  const [pipelineId, setPipelineId] = useState(ai);
   const [taskStatus, setTaskStatus] = useState(false);
   const [data, setdata] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
@@ -33,7 +33,7 @@ const Header = () => {
         .then((res) => {
           if (!res.ok) return Promise.reject(res);
           return res.json();
-        }).then((receviedpipelineId) => { console.log(receviedpipelineId); setPipelineId(receviedpipelineId.pipeline_id); })
+        }).then((receviedpipelineId) => { if (pipelineId === ai) { console.log(receviedpipelineId); setPipelineId(receviedpipelineId.pipeline_id); } })
         .catch(console.error);
     }
   }, [data]);
@@ -45,12 +45,14 @@ const Header = () => {
         body: JSON.stringify(urlLink),
         headers: { 'content-type': 'application/json' },
       }).then((res) => res.json().then((data1) => {
-        console.log(data1.current_task); setTaskStatus(data1.current_task);
-        if (data1.current_task === 'llm') {
-          setIsFinished(true);
+        if (!isFinished) {
+          console.log(data1.current_task); setTaskStatus(data1.current_task);
+          if (data1.current_task === 'llm') {
+            setIsFinished(true);
+          }
         }
       })).catch(console.error);
-    }, 1000);
+    }, 300);
     return () => {
       clearInterval(interval);
     };
