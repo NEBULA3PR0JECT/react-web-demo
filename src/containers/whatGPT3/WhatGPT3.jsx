@@ -13,22 +13,27 @@ const options = {
   },
 };
 
-function randomColor() {
-  const red = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-  const green = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-  const blue = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-  return `#${red}${green}${blue}`;
-}
+// function randomColor() {
+//   const red = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+//   const green = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+//   const blue = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+//   return `#${red}${green}${blue}`;
+// }
+let isGeneratedTriplets = false;
+let isCreatedGraph = false;
+// let isGeneratedCaption = false;
 
 const WhatGPT3 = ({ recPipelineId, isFinished }) => {
   console.log(`Recieved: whatgpt3 ${recPipelineId}`);
   console.log(`Recieved: taskStatus,  ${isFinished}`);
-  const [urlLink, setUrlLink] = useState(ai);
-  const [generatedCaption, setGeneratedCaption] = useState('Loading caption...');
-  const [generatedTriplets, setGeneratedTriplets] = useState([]);
   const [pipelineId, setPipelineId] = useState(false);
-  const [isCreatedNodes, setIsCreatedNodes] = useState(false);
-
+  // const [nodeInfo, setNodeInfo] = useState({});
+  // const [isGeneratedCaption, setIsGeneratedCaption] = useState(false);
+  // const [isGeneratedTriplets, setIsGeneratedTriplets] = useState(false);
+  const [urlLink, setUrlLink] = useState(ai);
+  // const [isCreatedNodes, setIsCreatedNodes] = useState(false);
+  const [generatedCaption, setGeneratedCaption] = useState(false);
+  const [generatedTriplets, setGeneratedTriplets] = useState(false);
   const [graphState, setGraphState] = useState({
     counter: 0,
     tripletidx: 0,
@@ -109,7 +114,12 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
           body: JSON.stringify(recPipelineId),
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
-          console.log(data1.triplets); setGeneratedTriplets(data1.triplets);
+          console.log(`triplets length: ${Object.keys(data1.triplets).length}`);
+          if (!isGeneratedTriplets && Object.keys(data1.triplets).length > 0) {
+            console.log(`triplets: ${JSON.stringify(data1.triplets)}`);
+            setGeneratedTriplets(data1.triplets);
+            isGeneratedTriplets = true;
+          }
         })).catch(console.error);
       }, 300);
       return () => {
@@ -118,45 +128,55 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
     }, []);
   }
 
-  const createNode = (generatedTripletsThrees) => {
-    const color = randomColor();
-    setGraphState(({ graph: { nodes, edges }, counter, tripletidx, ...rest }) => {
-      const id = counter + 1;
-      const secondId = counter + 2;
-      const thirdId = counter + 3;
-      console.log(`counter: ${counter}`);
-      console.log(`tripletIdx: ${tripletidx}`);
-      console.log(`triplets length: ${generatedTripletsThrees.length}`);
-      // const from = Math.floor(Math.random() * (counter - 1)) + 1;
+  const createNodesGraph = (tripletsNodes) => {
+    setGraphState(({ graph: { nodes, edges }, ...rest }) => {
       return {
         ...rest,
         graph: {
           nodes: [
             ...nodes,
-            { id: `${id}`, label: `${generatedTripletsThrees[tripletidx][0]}`, color },
-            { id: `${secondId}`, label: `${generatedTripletsThrees[tripletidx][1]}`, color },
-            { id: `${thirdId}`, label: `${generatedTripletsThrees[tripletidx][2]}`, color },
+            tripletsNodes,
           ],
           edges: [
             ...edges,
-            { from: id, to: secondId },
-            { from: secondId, to: thirdId },
           ],
         },
-        counter: thirdId,
-        tripletidx: tripletidx + 1,
       };
     });
   };
 
-  if (isFinished && !isCreatedNodes) {
-    setIsCreatedNodes(true);
-    const generatedTripletsThrees = generatedTriplets.filter((element) => element.length === 3);
-    console.log(`triplets length: ${generatedTripletsThrees.length}`);
-    generatedTripletsThrees.forEach(() => {
-      createNode(generatedTripletsThrees);
+  const createEdgesGraph = (tripletsEdges) => {
+    setGraphState(({ graph: { nodes, edges }, ...rest }) => {
+      return {
+        ...rest,
+        graph: {
+          nodes: [
+            ...nodes,
+          ],
+          edges: [
+            ...edges,
+            tripletsEdges,
+          ],
+        },
+      };
     });
+  };
+
+  if (isGeneratedTriplets && !isCreatedGraph) {
+    console.log(`Generated triplets JSON: ${JSON.stringify(generatedTriplets)}`);
+    const tripletsNodes = generatedTriplets.graph.nodes;
+    const tripletsEdges = generatedTriplets.graph.edges;
+    console.log(`Generated Nodes JSON: ${JSON.stringify(tripletsNodes)}`);
+    console.log(`Generated Edges JSON: ${JSON.stringify(tripletsEdges)}`);
+    for (let index = 0; index < tripletsNodes.length; index += 1) {
+      createNodesGraph(tripletsNodes[index]);
+    }
+    for (let index = 0; index < tripletsEdges.length; index += 1) {
+      createEdgesGraph(tripletsEdges[index]);
+    }
+    isCreatedGraph = true;
   }
+
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     fetch('http://74.82.29.209:5000/get_fetching_status', {
@@ -191,13 +211,13 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
         </div>
       </div>
       <div className="gpt3__whatgpt3-heading">
-        <h1 className="gradient__text">Generated caption: </h1>
+        <h1 className="gradient__text">Caption: </h1>
       </div>
       <div className="gpt3__whatgpt3-heading">
         <p>{generatedCaption}</p>
       </div>
       <div className="gpt3__whatgpt3-heading">
-        <h1 className="gradient__text">Generated triplets:</h1>
+        <h1 className="gradient__text">Triplets: </h1>
       </div>
       <div className="gpt3__whatgpt3-heading-triplet">
         <Graph graph={graph} options={options} events={events} style={{ height: '640px' }} />
