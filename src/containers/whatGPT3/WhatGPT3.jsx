@@ -19,7 +19,7 @@ const options = {
 //   const blue = Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
 //   return `#${red}${green}${blue}`;
 // }
-let isGeneratedTriplets = false;
+// let isGeneratedTriplets = false;
 let isCreatedGraph = false;
 // let isGeneratedCaption = false;
 
@@ -115,10 +115,10 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
           headers: { 'content-type': 'application/json' },
         }).then((res) => res.json().then((data1) => {
           console.log(`triplets length: ${Object.keys(data1.triplets).length}`);
-          if (!isGeneratedTriplets && Object.keys(data1.triplets).length > 0) {
+          if (Object.keys(data1.triplets).length > 0) {
             console.log(`triplets: ${JSON.stringify(data1.triplets)}`);
             setGeneratedTriplets(data1.triplets);
-            isGeneratedTriplets = true;
+            // isGeneratedTriplets = true;
           }
         })).catch(console.error);
       }, 300);
@@ -162,7 +162,8 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
     });
   };
 
-  if (isGeneratedTriplets && !isCreatedGraph) {
+  // if (isGeneratedTriplets && !isCreatedGraph) {
+  if (generatedTriplets && isFinished === 'llm' && !isCreatedGraph) {
     console.log(`Generated triplets JSON: ${JSON.stringify(generatedTriplets)}`);
     const tripletsNodes = generatedTriplets.graph.nodes;
     const tripletsEdges = generatedTriplets.graph.edges;
@@ -176,6 +177,8 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
     }
     isCreatedGraph = true;
   }
+  // isCreatedGraph = true;
+  // }
 
   // useEffect(() => {
   //   const interval = setInterval(() => {

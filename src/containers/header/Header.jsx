@@ -102,7 +102,8 @@ const Header = () => {
         </div>
         <div className="gpt3__whatgpt3">
           {console.log(`Sending ${pipelineId}`)}
-          {pipelineId && pipelineId !== ai && <WhatGPT3 recPipelineId={pipelineId} isFinished={isFinished} />}
+          {console.log(`IsFinished ${taskStatus}`)}
+          {pipelineId && pipelineId !== ai && <WhatGPT3 recPipelineId={pipelineId} isFinished={taskStatus} />}
         </div>
       </div>
     </div>
