@@ -76,7 +76,7 @@ const Header = () => {
           <button onClick={() => setUrlLink('')} type="button">X</button>
         </div>
         <div className="gpt3__header-content__start">
-          <button onClick={() => setdata((previous) => !previous)} type="button" disabled={taskStatus === '' ? '' : false}>Start</button>
+          <button onClick={() => setdata((previous) => !previous)} type="button" disabled={taskStatus === '' ? '' : true}>Start</button>
         </div>
         {(taskStatus === 'videoprocessing') && (
           <div className="gpt3__progressBar-image" style={{ width: '20%', padding: '0 4rem' }}>
