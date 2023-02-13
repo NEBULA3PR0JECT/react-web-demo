@@ -136,6 +136,22 @@
     border-radius: 5px;
 }
 
+.gpt3__header-content__start button:disabled {
+    flex: 1;
+    width: 100%;
+    min-height: 50px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    background: #999999;
+    background-color: #cccccc;
+    border: 2px solid #cccccc;
+    padding: 0 1rem;
+    color: #666666;
+    /* margin: 2rem 0 1rem; */
+}
+
 .gpt3__header-content__buttons button {
     flex: 1;
     width: 100%;

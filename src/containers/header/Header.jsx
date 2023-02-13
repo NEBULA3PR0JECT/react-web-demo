@@ -18,6 +18,11 @@ const Header = () => {
   const [taskStatus, setTaskStatus] = useState(false);
   const [data, setdata] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  // const [isDisabled, setIsDisabled] = useState(true);
+  // const [buttonState, setButtonState] = useState({
+  //   isDisabled: false,
+  //   data: false,
+  // });
 
   const handleChange = (event) => {
     setUrlLink(event.target.value);
@@ -45,8 +50,8 @@ const Header = () => {
         body: JSON.stringify(urlLink),
         headers: { 'content-type': 'application/json' },
       }).then((res) => res.json().then((data1) => {
+        console.log(`task status: ${JSON.stringify(data1.current_task)}`); setTaskStatus(data1.current_task);
         if (!isFinished) {
-          console.log(data1.current_task); setTaskStatus(data1.current_task);
           if (data1.current_task === 'llm') {
             setIsFinished(true);
           }
@@ -57,6 +62,8 @@ const Header = () => {
       clearInterval(interval);
     };
   }, []);
+
+  // const { isDisabledd, data } = buttonState;
 
   return (
 
@@ -69,7 +76,7 @@ const Header = () => {
           <button onClick={() => setUrlLink('')} type="button">X</button>
         </div>
         <div className="gpt3__header-content__start">
-          <button onClick={() => setdata((previous) => !previous)} type="button">Start</button>
+          <button onClick={() => setdata((previous) => !previous)} type="button" disabled={taskStatus === '' ? '' : 'true'}>Start</button>
         </div>
         {(taskStatus === 'videoprocessing') && (
           <div className="gpt3__progressBar-image" style={{ width: '20%', padding: '0 4rem' }}>
