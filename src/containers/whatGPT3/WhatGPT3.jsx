@@ -21,7 +21,8 @@ const options = {
 // }
 // let isGeneratedTriplets = false;
 let isCreatedGraph = false;
-// let isGeneratedCaption = false;
+let stopFetcing = false;
+let prevId = ai;
 
 const WhatGPT3 = ({ recPipelineId, isFinished }) => {
   console.log(`Recieved: whatgpt3 ${recPipelineId}`);
@@ -70,63 +71,17 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
     setPipelineId(recPipelineId);
   }
 
+  if (prevId !== recPipelineId) {
+    prevId = recPipelineId;
+    console.log(`is created graph: ${isCreatedGraph}`);
+    isCreatedGraph = false;
+    console.log(`is created graph: ${isCreatedGraph}`);
+  }
   // useEffect(() => {
   //   if (!pipelineId) {
   //     setPipelineId(pipelineId1);
   //   }
   // }, [pipelineId]);
-
-  if (recPipelineId) {
-    useEffect(() => {
-      const interval = setInterval(() => {
-        fetch('http://74.82.29.209:5000/get_generated_caption_url', {
-          method: 'POST',
-          body: JSON.stringify(recPipelineId),
-          headers: { 'content-type': 'application/json' },
-        }).then((res) => res.json().then((data1) => {
-          console.log(data1.image_url); setUrlLink(data1.image_url);
-        })).catch(console.error);
-      }, 3000);
-      return () => {
-        clearInterval(interval);
-      };
-    }, []);
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        fetch('http://74.82.29.209:5000/get_generated_text', {
-          method: 'POST',
-          body: JSON.stringify(recPipelineId),
-          headers: { 'content-type': 'application/json' },
-        }).then((res) => res.json().then((data1) => {
-          console.log(data1.candidate); setGeneratedCaption(data1.candidate);
-        })).catch(console.error);
-      }, 3000);
-      return () => {
-        clearInterval(interval);
-      };
-    }, []);
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        fetch('http://74.82.29.209:5000/get_generated_triplets', {
-          method: 'POST',
-          body: JSON.stringify(recPipelineId),
-          headers: { 'content-type': 'application/json' },
-        }).then((res) => res.json().then((data1) => {
-          console.log(`triplets length: ${Object.keys(data1.triplets).length}`);
-          if (Object.keys(data1.triplets).length > 0) {
-            console.log(`triplets: ${JSON.stringify(data1.triplets)}`);
-            setGeneratedTriplets(data1.triplets);
-            // isGeneratedTriplets = true;
-          }
-        })).catch(console.error);
-      }, 3000);
-      return () => {
-        clearInterval(interval);
-      };
-    }, []);
-  }
 
   const createNodesGraph = (tripletsNodes) => {
     setGraphState(({ graph: { nodes, edges }, ...rest }) => {
@@ -164,6 +119,8 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
 
   // if (isGeneratedTriplets && !isCreatedGraph) {
   if (generatedTriplets && isFinished === 'llm' && !isCreatedGraph) {
+    stopFetcing = true;
+    console.log(`fetching: ${stopFetcing}`);
     console.log(`Generated triplets JSON: ${JSON.stringify(generatedTriplets)}`);
     const tripletsNodes = generatedTriplets.graph.nodes;
     const tripletsEdges = generatedTriplets.graph.edges;
@@ -176,6 +133,66 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
       createEdgesGraph(tripletsEdges[index]);
     }
     isCreatedGraph = true;
+  }
+
+  if (recPipelineId) {
+    useEffect(() => {
+      let isMounted = true;
+      const interval = setInterval(() => {
+        fetch('http://74.82.29.209:5000/get_generated_caption_url', {
+          method: 'POST',
+          body: JSON.stringify(recPipelineId),
+          headers: { 'content-type': 'application/json' },
+        }).then((res) => res.json().then((data1) => {
+          if (isMounted) { console.log(data1.image_url); setUrlLink(data1.image_url); }
+        })).catch(console.error);
+      }, 3000);
+      return () => {
+        isMounted = false;
+        clearInterval(interval);
+      };
+    }, []);
+
+    useEffect(() => {
+      let isMountedSecond = true;
+      const interval = setInterval(() => {
+        fetch('http://74.82.29.209:5000/get_generated_text', {
+          method: 'POST',
+          body: JSON.stringify(recPipelineId),
+          headers: { 'content-type': 'application/json' },
+        }).then((res) => res.json().then((data1) => {
+          if (isMountedSecond) { console.log(data1.candidate); setGeneratedCaption(data1.candidate); }
+        })).catch(console.error);
+      }, 3000);
+      return () => {
+        isMountedSecond = false;
+        clearInterval(interval);
+      };
+    }, []);
+
+    useEffect(() => {
+      let isMountedThird = true;
+      const interval = setInterval(() => {
+        fetch('http://74.82.29.209:5000/get_generated_triplets', {
+          method: 'POST',
+          body: JSON.stringify(recPipelineId),
+          headers: { 'content-type': 'application/json' },
+        }).then((res) => res.json().then((data1) => {
+          if (isMountedThird) {
+            console.log(`triplets length: ${Object.keys(data1.triplets).length}`);
+            if (Object.keys(data1.triplets).length > 0) {
+              console.log(`triplets: ${JSON.stringify(data1.triplets)}`);
+              setGeneratedTriplets(data1.triplets);
+              // isGeneratedTriplets = true;
+            }
+          }
+        })).catch(console.error);
+      }, 3000);
+      return () => {
+        isMountedThird = false;
+        clearInterval(interval);
+      };
+    }, []);
   }
   // isCreatedGraph = true;
   // }

@@ -80,7 +80,7 @@ const Header = () => {
         <p>Insert the URL Link below</p>
         <div className="gpt3__header-content__input">
           <input type="text" onChange={handleChange} id="urlLink" name="urlLink" value={urlLink === ai ? '' : urlLink} placeholder="Your URL Link" />
-          <button onClick={() => setUrlLink('')} type="button">X</button>
+          <button onClick={() => { setUrlLink(ai); setPipelineId(ai); }} type="button">X</button>
         </div>
         <div className="gpt3__header-content__start">
           <button onClick={() => setdata((previous) => !previous)} type="button" disabled={checkTaskStatus()}> {checkTaskStatus() === '' ? 'Start' : 'Loading... Please wait.'}</button>
