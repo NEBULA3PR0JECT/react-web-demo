@@ -223,7 +223,7 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
         <h1 className="gradient__text">Triplets: </h1>
       </div>
       <div className="gpt3__whatgpt3-heading-triplet">
-        <Graph graph={graph} options={options} events={events} />
+        <Graph graph={graph} options={options} events={events} style={{ height: '640px' }} />
       </div>
     </div>
   );
