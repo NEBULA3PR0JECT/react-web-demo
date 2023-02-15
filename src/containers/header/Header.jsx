@@ -28,6 +28,13 @@ const Header = () => {
     setUrlLink(event.target.value);
   };
 
+  function checkTaskStatus() {
+    if (taskStatus === '' || taskStatus === 'done') {
+      return '';
+    }
+    return true;
+  }
+
   useEffect(() => {
     if (urlLink !== ai) {
       fetch('http://74.82.29.209:5000/insert_pipeline_id', {
@@ -57,7 +64,7 @@ const Header = () => {
           }
         }
       })).catch(console.error);
-    }, 300);
+    }, 2000);
     return () => {
       clearInterval(interval);
     };
@@ -76,7 +83,7 @@ const Header = () => {
           <button onClick={() => setUrlLink('')} type="button">X</button>
         </div>
         <div className="gpt3__header-content__start">
-          <button onClick={() => setdata((previous) => !previous)} type="button" disabled={taskStatus === '' ? '' : true}>Start</button>
+          <button onClick={() => setdata((previous) => !previous)} type="button" disabled={checkTaskStatus()}> {checkTaskStatus() === '' ? 'Start' : 'Loading... Please wait.'}</button>
         </div>
         {(taskStatus === 'videoprocessing') && (
           <div className="gpt3__progressBar-image" style={{ width: '20%', padding: '0 4rem' }}>

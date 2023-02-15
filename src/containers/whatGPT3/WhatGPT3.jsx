@@ -86,7 +86,7 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
         }).then((res) => res.json().then((data1) => {
           console.log(data1.image_url); setUrlLink(data1.image_url);
         })).catch(console.error);
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
@@ -101,7 +101,7 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
         }).then((res) => res.json().then((data1) => {
           console.log(data1.candidate); setGeneratedCaption(data1.candidate);
         })).catch(console.error);
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
@@ -121,7 +121,7 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
             // isGeneratedTriplets = true;
           }
         })).catch(console.error);
-      }, 300);
+      }, 3000);
       return () => {
         clearInterval(interval);
       };
@@ -223,7 +223,7 @@ const WhatGPT3 = ({ recPipelineId, isFinished }) => {
         <h1 className="gradient__text">Triplets: </h1>
       </div>
       <div className="gpt3__whatgpt3-heading-triplet">
-        <Graph graph={graph} options={options} events={events} style={{ height: '640px' }} />
+        <Graph graph={graph} options={options} events={events} />
       </div>
     </div>
   );
